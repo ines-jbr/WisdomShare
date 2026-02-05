@@ -39,7 +39,7 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
-        return buildToken(exraClaims, userDetails, jwtExpiration);
+        return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
     private String buildToken(
@@ -48,7 +48,7 @@ public class JwtService {
             long jwtExpiration
     ) {
         var authorities = userDetails.getAuthorities()
-                .stream().
+                .stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
         return Jwts
@@ -87,5 +87,5 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
-    }*/
+    }
 }

@@ -1,0 +1,163 @@
+# ============================================
+# SPRING BOOT / JAVA / MAVEN
+# ============================================
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Spring Boot
+spring-boot-*.log
+*.log.*
+
+# Application properties
+application-*.properties
+application-*.yml
+
+# Uploads directory (adjust path as needed)
+uploads/
+**/uploads/**
+
+# ============================================
+# ANGULAR / NODE.JS / NPM
+# ============================================
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Angular build output
+dist/
+tmp/
+out-tsc/
+.angular/
+bazel-out
+
+# Angular cache
+.angular/cache
+
+# ============================================
+# IDE / EDITOR
+# ============================================
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+.idea_modules/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# ============================================
+# OPERATING SYSTEM
+# ============================================
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+
+# ============================================
+# SENSITIVE / ENVIRONMENT
+# ============================================
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Secrets and credentials
+secrets/
+*.pem
+*.key
+*.p12
+*.jks
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# ============================================
+# MISCELLANEOUS
+# ============================================
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Coverage reports
+coverage/
+*.lcov
+.nyc_output
+
+# Test reports
+test-results/
+junit/
+
+# Documentation
+docs/_build/
+site/
+```
