@@ -1,0 +1,4 @@
+package com.wisdomshare.demo.auth;
+
+public class RegistrationRequest {
+}
