@@ -27,7 +27,8 @@ public class BeansConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService); // Fixed: pass userDetailsService in constructor
+        // Modern way in Spring Security 6.1+ / 7+
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
@@ -60,11 +61,7 @@ public class BeansConfig {
                 HttpHeaders.AUTHORIZATION
         ));
         config.setAllowedMethods(Arrays.asList(
-                "GET",
-                "POST",
-                "DELETE",
-                "PUT",
-                "PATCH"
+                "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"
         ));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
