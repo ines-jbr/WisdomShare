@@ -62,7 +62,7 @@ public class booktransactionhistory extends baseentity {
      */
     @Column(length = 30, nullable = false)
     @Builder.Default
-    private String status = "BORROWED";  // BORROWED, RETURNED, OVERDUE, LOST, CANCELLED, RESERVED
+    private String status = "BORROWED"; // BORROWED, RETURNED, OVERDUE, LOST, CANCELLED, RESERVED
 
     /**
      * Whether the book was returned on time
@@ -71,6 +71,14 @@ public class booktransactionhistory extends baseentity {
     @Column(nullable = false)
     @Builder.Default
     private boolean returnedOnTime = false;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean returned = false;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean returnApproved = false;
 
     /**
      * Whether the transaction is currently active
@@ -111,7 +119,7 @@ public class booktransactionhistory extends baseentity {
     }
 
     public boolean isOverdue() {
-        return status.equals("OVERDUE") || 
-               (actualReturnDate == null && LocalDate.now().isAfter(returnDate));
+        return status.equals("OVERDUE") ||
+                (actualReturnDate == null && LocalDate.now().isAfter(returnDate));
     }
 }
