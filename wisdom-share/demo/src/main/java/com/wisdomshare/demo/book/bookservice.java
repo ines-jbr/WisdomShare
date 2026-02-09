@@ -30,7 +30,7 @@ public class bookservice {
     private final bookrepo bookRepository;
     private final bookmapper bookMapper;
     private final booktransactionhistoryrepository transactionHistoryRepository;
-
+    private final fileStorageService fileStorageServices;
     public Integer save(bookrequest request, User connectedUser) {
         // Check if ISBN already exists (for create)
         if (request.id() == null && bookRepository.existsByIsbn(request.isbn())) {
@@ -243,7 +243,7 @@ public class bookservice {
         if (!Objects.equals(book.getCreatedBy(), connectedUser.getName())) {
             throw new BusinessException("You cannot approve the return of a book you do not own");
         }
-
+ 
         booktransactionhistory bookTransactionHistory = transactionHistoryRepository
                 .findByBookIdAndOwnerId(bookId, connectedUser.getName())
                 .orElseThrow(
@@ -268,5 +268,19 @@ public class bookservice {
                 page.isFirst(),
                 page.isLast());
     }
+    public void uploadBookCoverPicture(MultipartFile file, User connectedUser, Integer bookId) {
+        book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("No book found with ID:: " + bookId));
+        
+        // Vérification que l'utilisateur est bien le propriétaire
+        if (!Objects.equals(book.getOwner().getId(), connectedUser.getId())) {
+            throw new operationnotpermittedexception("You cannot update the cover of a book you do not own");
+        }
 
-}
+        // Appel au service de stockage de fichiers
+        var bookCover = fileStorageService.saveFile(file, connectedUser.getId(), book.getId());
+        book.setBookCover(bookCover);
+        bookRepository.save(book);
+    }
+
+}    
