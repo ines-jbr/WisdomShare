@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
                 contact = @Contact(
                         name = "WisdommShare",
                         email = "contact@WisdomShare.com",
-                        url = "https://aliboucoding.com"
+                        url = "https://WisdomShare.com"
                 ),
                 description = "OpenApi documentation for Spring Security",
                 title = "OpenApi specification - WisdomShare",
