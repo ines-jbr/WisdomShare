@@ -2,12 +2,14 @@ package com.wisdomshare.demo.book;
 
 import com.wisdomshare.demo.common.pageresponse;
 import com.wisdomshare.demo.user.User;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -104,23 +106,26 @@ public class bookcontroller {
         return ResponseEntity.ok(bookService.returnBorrowedBook(bookId, user));
     }
 
-    @PatchMapping("borrow/return/approve/{book-id}")
+    @PatchMapping("/borrow/return/approve/{book-id}")
     public ResponseEntity<Integer> approveReturnBorrowBook(
             @PathVariable("book-id") Integer bookId,
             Authentication connectedUser) {
-        return ResponseEntity.ok(bookService.approveReturnBorrowedBook(bookId, connectedUser));
+        // Ajout du cast explicite ici
+        User user = (User) connectedUser.getPrincipal();
+        return ResponseEntity.ok(bookService.approveReturnBorrowedBook(bookId, user));
     }
-
-    @PostMapping(value ="/cover/{book-id"}", consumes = "multipart/form-data")
-    public ResponeEntity<?>u ploadBookPicture(
-         @PathVariable("book-id") Integer bookId,
-         @Parameter()
-         @RequestPart("file") MultipartFile file,
-         Authentication connectedUser
-    ){
-    service.uploadBookCoverPicture(file, connectedUser, bookId);
-    return ResponseEntity.accepted().build();
+    
+    @PostMapping(value = "/cover/{book-id}", consumes = "multipart/form-data")
+    public ResponseEntity<?> uploadBookPicture(
+            @PathVariable("book-id") Integer bookId,
+            @Parameter()
+            @RequestPart("file") MultipartFile file,
+            Authentication connectedUser
+    ) {
+        // On extrait l'utilisateur avant de le passer au service
+        User user = (User) connectedUser.getPrincipal(); 
+        bookService.uploadBookCoverPicture(file, user, bookId);
+        return ResponseEntity.accepted().build();
     }
-
-
+    
 }

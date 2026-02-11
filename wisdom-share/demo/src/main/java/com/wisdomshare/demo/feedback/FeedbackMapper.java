@@ -1,6 +1,6 @@
 package com.wisdomshare.demo.feedback;
 
-import com.wisdomshare.demo.book.Book;
+import com.wisdomshare.demo.book.book;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -8,24 +8,22 @@ import java.util.Objects;
 @Service
 public class FeedbackMapper {
 
-    public Feedback toFeedback(FeedbackRequest request) {
-        return Feedback.builder()
-                .note(request.note())
-                .comment(request.comment())
-                .book(Book.builder()
-                        .id(request.bookId())
-                        .archived(false) // Requis pour le builder, mais ne sera pas mis à jour en DB
-                        .shareable(false) 
-                        .build()
-                )
+    public feedback toFeedback(FeedbackRequest request) {
+        book bookEntity = new book();
+        bookEntity.setId(request.bookId()); 
+
+        return feedback.builder()
+                .rating(request.note() != null ? request.note().intValue() : 0)
+                .message(request.comment())
+                .book(bookEntity)
                 .build();
     }
 
-    public FeedbackResponse toFeedbackResponse(Feedback feedback, Integer userId) {
+    public FeedbackResponse toFeedbackResponse(feedback f, Integer userId) {
         return FeedbackResponse.builder()
-                .note(feedback.getNote())
-                .comment(feedback.getComment())
-                .ownFeedback(Objects.equals(feedback.getCreatedBy(), userId))
+                .note(f.getRating() != null ? f.getRating().doubleValue() : 0.0) 
+                .comment(f.getMessage())
+                .ownFeedback(f.getUser() != null && Objects.equals(f.getUser().getId(), userId))
                 .build();
     }
 }

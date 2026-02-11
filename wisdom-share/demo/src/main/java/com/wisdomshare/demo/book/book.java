@@ -9,67 +9,54 @@ import lombok.*;
 
 import java.util.List;
 
-@Entity
-@Table(name = "books")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
+@Entity
 public class book extends baseentity {
 
-    @Column(nullable = false, length = 200)
     private String title;
-
-    @Column(name = "author_name", nullable = false, length = 150)
     private String authorName;
-
-    @Column(unique = true, nullable = false, length = 20)
     private String isbn;
-
-    @Column(columnDefinition = "TEXT")
     private String synopsis;
+    private String bookCover;
+    private boolean archived;
+    private boolean shareable;
 
-    @Column(name = "book_cover", length = 500)
-    private String bookCover; // ou coverImageUrl selon ta préférence
-
-    @Column(nullable = false)
-    private boolean archived = false;
-
-    @Column(nullable = false)
-    private boolean shareable = true;
-
-    // Propriétaire du livre (celui qui l'a ajouté)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
     private User owner;
 
-    @Column(name = "createdby", nullable = false, updatable = false)
-    private String createdBy;
-
-    // Avis / notes laissés sur ce livre
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book")
     private List<feedback> feedbacks;
 
-    // Historique des emprunts / transactions
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book")
     private List<booktransactionhistory> histories;
 
-    /**
-     * Note moyenne du livre (arrondie à une décimale)
-     */
+    @Builder
+    // LE NOM ICI DOIT ETRE "book" POUR MATCH LA CLASSE
+    public book(Integer id, String title, String authorName, String isbn, String synopsis, String bookCover, boolean archived, boolean shareable, User owner) {
+        this.setId(id);
+        this.title = title;
+        this.authorName = authorName;
+        this.isbn = isbn;
+        this.synopsis = synopsis;
+        this.bookCover = bookCover;
+        this.archived = archived;
+        this.shareable = shareable;
+        this.owner = owner;
+    }
+
     @Transient
     public double getRate() {
         if (feedbacks == null || feedbacks.isEmpty()) {
             return 0.0;
         }
-
-        double average = feedbacks.stream()
-                .mapToDouble(feedback::getNote)
+        var rate = feedbacks.stream()
+                .mapToDouble(f -> f.getNote())
                 .average()
                 .orElse(0.0);
-
-        return Math.round(average * 10.0) / 10.0;
+        return Math.round(rate * 10.0) / 10.0;
     }
 }

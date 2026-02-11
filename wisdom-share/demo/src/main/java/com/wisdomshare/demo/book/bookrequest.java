@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record bookrequest(
-        @NotNull(message = "ID is required for update") Integer id, // optional for create
+        Integer id, 
 
         @NotBlank(message = "Title is required")
         @Size(max = 200, message = "Title must be less than 200 characters")
@@ -25,5 +25,7 @@ public record bookrequest(
 
         String coverImageUrl,
 
-        Boolean shareable
+        Boolean shareable,
+        
+        boolean archived // <-- AJOUTE CETTE LIGNE ICI
 ) {}

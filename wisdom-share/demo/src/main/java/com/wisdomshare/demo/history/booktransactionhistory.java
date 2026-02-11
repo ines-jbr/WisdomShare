@@ -101,7 +101,7 @@ public class booktransactionhistory extends baseentity {
     /**
      * Fine amount if overdue (can be calculated or stored)
      */
-    @Column(precision = 10, scale = 2)
+    @Column
     private Double fineAmount;
 
     /**
