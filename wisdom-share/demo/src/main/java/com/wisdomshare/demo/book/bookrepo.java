@@ -15,7 +15,7 @@ public interface bookrepo extends JpaRepository<book, Integer>, JpaSpecification
 
   @Query("""
       SELECT b
-      FROM Book b
+      FROM book b
       WHERE b.archived = false
         AND b.shareable = true
         AND b.createdBy != :userId

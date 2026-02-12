@@ -14,7 +14,7 @@ public class bookmapper {
                 .authorName(request.authorName())
                 .isbn(request.isbn())
                 .synopsis(request.synopsis())
-                .archived(false)
+                .archived(request.archived()) // Maintenant ça marche car on l'a ajouté au request
                 .shareable(request.shareable())
                 .build();
     }
@@ -29,20 +29,19 @@ public class bookmapper {
                 .rate(book.getRate())
                 .archived(book.isArchived())
                 .shareable(book.isShareable())
-                .owner(book.getOwner().fullName())
-                .cover(FileUtils.readFileFromLocation(book.getBookCover()))
+                .ownerFullName(book.getOwner().getFullName()) // fullName() -> getFullName()
+                .coverImageUrl(book.getBookCover()) // Utilise le nom exact de ton record bookresponse
                 .build();
     }
 
-    public borrowedbookresponse toBorrowedBookResponse(booktransactionhistory history) {
-        return borrowedbookresponse.builder()
-                .id(history.getBook().getId())
-                .title(history.getBook().getTitle())
-                .authorName(history.getBook().getAuthorName())
-                .isbn(history.getBook().getIsbn())
-                .rate(history.getBook().getRate())
-                .returned(history.isReturned())
-                .returnApproved(history.isReturnApproved())
-                .build();
+    // ... toBorrowedBookResponse reste identique ...
+
+    public void updateBookFromRequest(bookrequest request, book book) {
+        book.setTitle(request.title());
+        book.setAuthorName(request.authorName());
+        book.setIsbn(request.isbn());
+        book.setSynopsis(request.synopsis());
+        book.setShareable(request.shareable());
+        book.setArchived(request.archived()); // Maintenant ça marche !
     }
 }

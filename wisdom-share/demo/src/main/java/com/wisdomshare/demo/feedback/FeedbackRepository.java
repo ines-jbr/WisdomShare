@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
+// Remplace strictement Feedback par feedback (minuscule)
+public interface FeedbackRepository extends JpaRepository<feedback, Integer> {
 
     @Query("""
-            SELECT feedback
-            FROM Feedback feedback
-            WHERE feedback.book.id = :bookId
+            SELECT f
+            FROM feedback f
+            WHERE f.book.id = :bookId
             """)
-    Page<Feedback> findAllByBookId(@Param("bookId") Integer bookId, Pageable pageable);
+    Page<feedback> findAllByBookId(@Param("bookId") Integer bookId, Pageable pageable);
 }

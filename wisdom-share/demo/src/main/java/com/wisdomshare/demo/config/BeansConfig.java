@@ -27,8 +27,9 @@ public class BeansConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        // Modern way in Spring Security 6.1+ / 7+
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        // Correction ici : On utilise les setters pour éviter l'erreur de type
+        authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
