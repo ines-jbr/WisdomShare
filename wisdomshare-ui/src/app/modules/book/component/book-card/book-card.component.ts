@@ -1,8 +1,12 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {BookResponse} from '../../../../services/models/book-response';
+import {CommonModule} from '@angular/common'; // Requis pour *ngIf et les pipes
+import {RatingComponent} from '../rating/rating.component'; // Import du composant enfant
 
 @Component({
   selector: 'app-book-card',
+  standalone: true, // Définit le composant comme autonome
+  imports: [CommonModule, RatingComponent], // Déclare les dépendances nécessaires
   templateUrl: './book-card.component.html',
   styleUrls: ['./book-card.component.scss']
 })
@@ -13,9 +17,10 @@ export class BookCardComponent {
 
   get bookCover(): string | undefined {
     if (this._book.cover) {
-      return 'data:image/jpg;base64,' + this._book.cover
+      return 'data:image/jpg;base64,' + this._book.cover;
     }
-    return 'https://source.unsplash.com/user/c_v_r/1900x800';
+    // Image par défaut si aucune couverture n'est fournie
+    return 'https://picsum.photos/1900/800'; 
   }
 
   get book(): BookResponse {
@@ -27,7 +32,6 @@ export class BookCardComponent {
     this._book = value;
   }
 
-
   get manage(): boolean {
     return this._manage;
   }
@@ -37,6 +41,7 @@ export class BookCardComponent {
     this._manage = value;
   }
 
+  // Émetteurs d'événements pour la communication avec le composant parent
   @Output() private share: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private archive: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private addToWaitingList: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
