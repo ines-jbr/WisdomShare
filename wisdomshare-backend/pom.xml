@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.wisdomshare</groupId>
     <artifactId>wisdomshare-backend</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <name>WisdomShare Backend</name>
     <description>Backend for WisdomShare book social network</description>
     <properties>
