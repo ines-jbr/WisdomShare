@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BeansConfig {
 
-    @Value("${application.cors.origins:*}")
+    @Value("${application.cors.origins:http://localhost:4200}")
     private List<String> allowedOrigins;
 
     @Bean
@@ -29,7 +29,8 @@ public class BeansConfig {
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(allowedOrigins);
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowedMethods(List.of("*"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
