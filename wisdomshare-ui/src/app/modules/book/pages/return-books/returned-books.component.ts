@@ -8,8 +8,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-returned-books',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './return-books.component.html',
-  styleUrls: ['./return-books.component.scss']
+  templateUrl: './returned-books.component.html',
+  styleUrls: ['./returned-books.component.scss']
 })
 export class ReturnedBooksComponent implements OnInit {
 

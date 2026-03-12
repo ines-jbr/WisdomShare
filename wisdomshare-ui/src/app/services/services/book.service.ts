@@ -21,20 +21,20 @@ import { findAllBorrowedBooks } from '../fn/book/find-all-borrowed-books';
 import { FindAllBorrowedBooks$Params } from '../fn/book/find-all-borrowed-books';
 import { findAllReturnedBooks } from '../fn/book/find-all-returned-books';
 import { FindAllReturnedBooks$Params } from '../fn/book/find-all-returned-books';
-import { findBookById } from '../fn/book/find-book-by-id';
-import { FindBookById$Params } from '../fn/book/find-book-by-id';
+import { findById } from '../fn/book/find-by-id';
+import { FindById$Params } from '../fn/book/find-by-id';
 import { PageResponseBookResponse } from '../models/page-response-book-response';
-import { PageResponseBorrowedBookResponse } from '../models/page-response-borrowed-book-response';
-import { returnBorrowBook } from '../fn/book/return-borrow-book';
-import { ReturnBorrowBook$Params } from '../fn/book/return-borrow-book';
+import { PageresponseBorrowedbookresponse } from '../models/pageresponse-borrowedbookresponse';
+import { returnBorrowedBook } from '../fn/book/return-borrowed-book';
+import { ReturnBorrowedBook$Params } from '../fn/book/return-borrowed-book';
 import { saveBook } from '../fn/book/save-book';
 import { SaveBook$Params } from '../fn/book/save-book';
 import { updateArchivedStatus } from '../fn/book/update-archived-status';
 import { UpdateArchivedStatus$Params } from '../fn/book/update-archived-status';
 import { updateShareableStatus } from '../fn/book/update-shareable-status';
 import { UpdateShareableStatus$Params } from '../fn/book/update-shareable-status';
-import { uploadBookCoverPicture } from '../fn/book/upload-book-cover-picture';
-import { UploadBookCoverPicture$Params } from '../fn/book/upload-book-cover-picture';
+import { uploadBookPicture } from '../fn/book/upload-book-picture';
+import { UploadBookPicture$Params } from '../fn/book/upload-book-picture';
 
 @Injectable({ providedIn: 'root' })
 export class BookService extends BaseService {
@@ -101,9 +101,9 @@ export class BookService extends BaseService {
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  uploadBookCoverPicture$Response(params: UploadBookCoverPicture$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+  uploadBookCoverPicture$Response(params: UploadBookPicture$Params, context?: HttpContext): Observable<StrictHttpResponse<{
   }>> {
-    return uploadBookCoverPicture(this.http, this.rootUrl, params, context);
+    return uploadBookPicture(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -112,7 +112,7 @@ export class BookService extends BaseService {
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  uploadBookCoverPicture(params: UploadBookCoverPicture$Params, context?: HttpContext): Observable<{
+  uploadBookCoverPicture(params: UploadBookPicture$Params, context?: HttpContext): Observable<{
   }> {
     return this.uploadBookCoverPicture$Response(params, context).pipe(
       map((r: StrictHttpResponse<{
@@ -171,17 +171,17 @@ export class BookService extends BaseService {
     );
   }
 
-  /** Path part for operation `returnBorrowBook()` */
+  /** Path part for operation `returnBorrowedBook()` */
   static readonly ReturnBorrowBookPath = '/books/borrow/return/{book-id}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `returnBorrowBook()` instead.
+   * To access only the response body, use `returnBorrowedBook()` instead.
    *
    * This method doesn't expect any request body.
    */
-  returnBorrowBook$Response(params: ReturnBorrowBook$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
-    return returnBorrowBook(this.http, this.rootUrl, params, context);
+  returnBorrowBook$Response(params: ReturnBorrowedBook$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+    return returnBorrowedBook(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -190,7 +190,7 @@ export class BookService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  returnBorrowBook(params: ReturnBorrowBook$Params, context?: HttpContext): Observable<number> {
+  returnBorrowBook(params: ReturnBorrowedBook$Params, context?: HttpContext): Observable<number> {
     return this.returnBorrowBook$Response(params, context).pipe(
       map((r: StrictHttpResponse<number>): number => r.body)
     );
@@ -255,8 +255,8 @@ export class BookService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findBookById$Response(params: FindBookById$Params, context?: HttpContext): Observable<StrictHttpResponse<BookResponse>> {
-    return findBookById(this.http, this.rootUrl, params, context);
+  findBookById$Response(params: FindById$Params, context?: HttpContext): Observable<StrictHttpResponse<BookResponse>> {
+    return findById(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -265,7 +265,7 @@ export class BookService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findBookById(params: FindBookById$Params, context?: HttpContext): Observable<BookResponse> {
+  findBookById(params: FindById$Params, context?: HttpContext): Observable<BookResponse> {
     return this.findBookById$Response(params, context).pipe(
       map((r: StrictHttpResponse<BookResponse>): BookResponse => r.body)
     );
@@ -280,7 +280,7 @@ export class BookService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllReturnedBooks$Response(params?: FindAllReturnedBooks$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseBorrowedBookResponse>> {
+  findAllReturnedBooks$Response(params?: FindAllReturnedBooks$Params, context?: HttpContext): Observable<StrictHttpResponse<PageresponseBorrowedbookresponse>> {
     return findAllReturnedBooks(this.http, this.rootUrl, params, context);
   }
 
@@ -290,9 +290,9 @@ export class BookService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllReturnedBooks(params?: FindAllReturnedBooks$Params, context?: HttpContext): Observable<PageResponseBorrowedBookResponse> {
+  findAllReturnedBooks(params?: FindAllReturnedBooks$Params, context?: HttpContext): Observable<PageresponseBorrowedbookresponse> {
     return this.findAllReturnedBooks$Response(params, context).pipe(
-      map((r: StrictHttpResponse<PageResponseBorrowedBookResponse>): PageResponseBorrowedBookResponse => r.body)
+      map((r: StrictHttpResponse<PageresponseBorrowedbookresponse>): PageresponseBorrowedbookresponse => r.body)
     );
   }
 
@@ -330,7 +330,7 @@ export class BookService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllBorrowedBooks$Response(params?: FindAllBorrowedBooks$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseBorrowedBookResponse>> {
+  findAllBorrowedBooks$Response(params?: FindAllBorrowedBooks$Params, context?: HttpContext): Observable<StrictHttpResponse<PageresponseBorrowedbookresponse>> {
     return findAllBorrowedBooks(this.http, this.rootUrl, params, context);
   }
 
@@ -340,9 +340,9 @@ export class BookService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllBorrowedBooks(params?: FindAllBorrowedBooks$Params, context?: HttpContext): Observable<PageResponseBorrowedBookResponse> {
+  findAllBorrowedBooks(params?: FindAllBorrowedBooks$Params, context?: HttpContext): Observable<PageresponseBorrowedbookresponse> {
     return this.findAllBorrowedBooks$Response(params, context).pipe(
-      map((r: StrictHttpResponse<PageResponseBorrowedBookResponse>): PageResponseBorrowedBookResponse => r.body)
+      map((r: StrictHttpResponse<PageresponseBorrowedbookresponse>): PageresponseBorrowedbookresponse => r.body)
     );
   }
 

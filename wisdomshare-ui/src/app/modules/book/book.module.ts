@@ -1,18 +1,18 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { BookRoutingModule } from './book-routing.module';
-import { MainComponent } from './pages/main/main.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {BookRoutingModule} from './book-routing.module';
+import {MainComponent} from './pages/main/main.component';
+import {BookDetailsComponent} from './pages/book-details/book-details.component';
+import {RatingComponent} from './component/rating/rating.component';
 
 @NgModule({
-  declarations: [
-    // Only non-standalone components are declared here
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     BookRoutingModule,
-    // MainComponent is standalone, so it must be imported here
-    MainComponent
+    MainComponent,
+    BookDetailsComponent,
+    RatingComponent
   ]
 })
-export class BookModule { }
+export class BookModule {}
