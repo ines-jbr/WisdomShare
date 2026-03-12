@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {PageResponseBookResponse} from '../../../../services/models/page-response-book-response';
-import {BookResponse} from '../../../../services/models/book-response';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BookService } from '../../../../services/services/book.service';
+import { PageresponseBorrowedbookresponse } from '../../../../services/models/pageresponse-borrowedbookresponse';
+import { Borrowedbookresponse } from '../../../../services/models/borrowedbookresponse';
+import { FeedbackRequest } from '../../../../services/models/feedback-request';
 
 @Component({
   selector: 'app-borrowed-book-list',
@@ -13,8 +15,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class BorrowedBookListComponent implements OnInit {
 
-  borrowedBooks: PageResponseBorrowedBookResponse = {};
-  selectedBook: BorrowedBookResponse | undefined = undefined;
+  borrowedBooks: PageresponseBorrowedbookresponse = {};
+  selectedBook: Borrowedbookresponse | undefined = undefined;
+  feedbackRequest: FeedbackRequest = { note: 0, comment: '', bookId: 0 };
   page = 0;
   size = 5;
   pages: any = [];
@@ -41,18 +44,18 @@ export class BorrowedBookListComponent implements OnInit {
     });
   }
 
-  returnBorrowedBook(book: BorrowedBookResponse) {
+  returnBorrowedBook(book: Borrowedbookresponse) {
     this.selectedBook = book;
+    this.feedbackRequest = { note: 0, comment: '', bookId: book.id as number };
   }
 
-  // Cette méthode est appelée quand l'utilisateur confirme le retour
   returnBook(withFeedback: boolean) {
     this.bookService.returnBorrowBook({
       'book-id': this.selectedBook?.id as number
     }).subscribe({
       next: () => {
-        if (withFeedback) {
-          // Logique pour envoyer un feedback si nécessaire (optionnel dans la vidéo)
+        if (withFeedback && this.feedbackRequest.note) {
+          // Feedback logic handled separately if needed
         }
         this.selectedBook = undefined;
         this.findAllBorrowedBooks();
@@ -60,14 +63,13 @@ export class BorrowedBookListComponent implements OnInit {
     });
   }
 
-  // Méthodes de pagination
   goToFirstPage() { this.page = 0; this.findAllBorrowedBooks(); }
   goToPreviousPage() { if (this.page > 0) { this.page--; this.findAllBorrowedBooks(); } }
   goToPage(pageIndex: number) { this.page = pageIndex; this.findAllBorrowedBooks(); }
   goToNextPage() { if (this.page < (this.borrowedBooks.totalPages as number) - 1) { this.page++; this.findAllBorrowedBooks(); } }
   goToLastPage() { this.page = (this.borrowedBooks.totalPages as number) - 1; this.findAllBorrowedBooks(); }
 
-  get isLastPage() {
+  get isLastPage(): boolean {
     return this.page === (this.borrowedBooks.totalPages as number) - 1;
   }
 }

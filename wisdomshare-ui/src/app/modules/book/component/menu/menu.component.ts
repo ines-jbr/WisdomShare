@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import {KeycloakService} from '../../../../services/keycloak/keycloak.service';
+
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent implements OnInit {
 
   constructor(
-    private  KeyclockService : keyclockService ,
-    private router: Router
+    private keycloakService: KeycloakService
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +30,6 @@ export class MenuComponent implements OnInit {
   }
 
   async logout() {
-    this.KeyclockService.logout();
+    this.keycloakService.logout();
   }
 }

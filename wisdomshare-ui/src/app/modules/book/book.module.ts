@@ -4,16 +4,15 @@ import { CommonModule } from '@angular/common';
 import { BookRoutingModule } from './book-routing.module';
 import { MainComponent } from './pages/main/main.component';
 
-
 @NgModule({
   declarations: [
-    MainComponent,
-    
+    // Only non-standalone components are declared here
   ],
   imports: [
     CommonModule,
     BookRoutingModule,
-    
+    // MainComponent is standalone, so it must be imported here
+    MainComponent
   ]
 })
 export class BookModule { }

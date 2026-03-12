@@ -1,10 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {BookRequest} from '../../../../services/models/book-request';
-import {BookService} from '../../../../services/services/book.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { BookRequest } from '../../../../services/models/book-request';
+import { BookService } from '../../../../services/services/book.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-book',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './manage-book.component.html',
   styleUrls: ['./manage-book.component.scss']
 })
@@ -24,8 +29,7 @@ export class ManageBookComponent implements OnInit {
     private bookService: BookService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     const bookId = this.activatedRoute.snapshot.params['bookId'];
@@ -41,7 +45,7 @@ export class ManageBookComponent implements OnInit {
             isbn: book.isbn as string,
             synopsis: book.synopsis as string,
             shareable: book.shareable
-          }
+          };
         }
       });
     }
@@ -72,10 +76,7 @@ export class ManageBookComponent implements OnInit {
 
   onFileSelected(event: any) {
     this.selectedBookCover = event.target.files[0];
-    console.log(this.selectedBookCover);
-
     if (this.selectedBookCover) {
-
       const reader = new FileReader();
       reader.onload = () => {
         this.selectedPicture = reader.result as string;

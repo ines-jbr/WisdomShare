@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PageResponseBorrowedBookResponse } from '../../../../services/models/page-response-borrowed-book-response';
-import { BorrowedBookResponse } from '../../../../services/models/borrowed-book-response';
+import { PageresponseBorrowedbookresponse } from '../../../../services/models/pageresponse-borrowedbookresponse';
+import { Borrowedbookresponse } from '../../../../services/models/borrowedbookresponse';
 import { BookService } from '../../../../services/services/book.service';
 import { CommonModule } from '@angular/common';
 
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ReturnedBooksComponent implements OnInit {
 
-  returnedBooks: PageResponseBorrowedBookResponse = {};
+  returnedBooks: PageresponseBorrowedbookresponse = {};
   page = 0;
   size = 5;
   pages: any = [];
@@ -42,8 +42,8 @@ export class ReturnedBooksComponent implements OnInit {
   }
 
   // Approuver le retour (utilisé par le propriétaire du livre)
-  approveBookReturn(book: BorrowedBookResponse) {
-    if (!book.returned) { 
+  approveBookReturn(book: Borrowedbookresponse) {
+    if (!book.returned) {
       this.level = 'error';
       this.message ='the book is not yet returned';
       return;

@@ -1,12 +1,33 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, APP_INITIALIZER } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { provideClientHydration } from '@angular/platform-browser';
 
-import { routes } from './app.routes';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+
+import { HttpTokenInterceptor } from './services/interceptor/http-token-interceptor';
+import { KeycloakService } from './services/keycloak/keycloak.service';
+import {routes} from './app.routes';
+
+export function kcFactory(kcService: KeycloakService) {
+  return () => kcService.init();
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideRouter(routes), provideClientHydration(withEventReplay())
+    provideRouter(routes),
+    provideHttpClient(withInterceptorsFromDi()),
+    provideClientHydration(),
+    KeycloakService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpTokenInterceptor,
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: kcFactory,
+      deps: [KeycloakService],
+      multi: true
+    }
   ]
 };

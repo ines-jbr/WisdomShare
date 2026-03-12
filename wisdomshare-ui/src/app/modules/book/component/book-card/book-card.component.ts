@@ -1,26 +1,24 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {BookResponse} from '../../../../services/models/book-response';
-import {CommonModule} from '@angular/common'; // Requis pour *ngIf et les pipes
-import {RatingComponent} from '../rating/rating.component'; // Import du composant enfant
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { BookResponse } from '../../../../services/models/book-response';
+import { CommonModule } from '@angular/common';
+import { RatingComponent } from '../rating/rating.component';
 
 @Component({
   selector: 'app-book-card',
-  standalone: true, // Définit le composant comme autonome
-  imports: [CommonModule, RatingComponent], // Déclare les dépendances nécessaires
+  standalone: true,
+  imports: [CommonModule, RatingComponent],
   templateUrl: './book-card.component.html',
   styleUrls: ['./book-card.component.scss']
 })
 export class BookCardComponent {
   private _book: BookResponse = {};
   private _manage = false;
-  private _bookCover: string | undefined;
 
-  get bookCover(): string | undefined {
+  get bookCover(): string {
     if (this._book.cover) {
       return 'data:image/jpg;base64,' + this._book.cover;
     }
-    // Image par défaut si aucune couverture n'est fournie
-    return 'https://picsum.photos/1900/800'; 
+    return 'https://picsum.photos/1900/800';
   }
 
   get book(): BookResponse {
@@ -41,13 +39,13 @@ export class BookCardComponent {
     this._manage = value;
   }
 
-  // Émetteurs d'événements pour la communication avec le composant parent
-  @Output() private share: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-  @Output() private archive: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-  @Output() private addToWaitingList: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-  @Output() private borrow: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-  @Output() private edit: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-  @Output() private details: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+  // Outputs must be public so the parent template can bind to them
+  @Output() share: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+  @Output() archive: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+  @Output() addToWaitingList: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+  @Output() borrow: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+  @Output() edit: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+  @Output() details: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
 
   onShare() {
     this.share.emit(this._book);

@@ -45,7 +45,7 @@
         *ngFor="let pageIndex of pages"
       >
         <a
-          (click)="gotToPage(pageIndex)"
+          (click)="goToPage(pageIndex)"
           class="page-link"
           [class.active]="page === pageIndex"
           href="javascript:void(0)"
