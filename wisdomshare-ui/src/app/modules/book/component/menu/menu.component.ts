@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class MenuComponent implements OnInit {
 
   constructor(
+    private  KeyclockService : keyclockService ,
     private router: Router
   ) { }
 
@@ -27,8 +28,7 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  logout(): void {
-    localStorage.removeItem('token');
-    window.location.reload();
+  async logout() {
+    this.KeyclockService.logout();
   }
 }

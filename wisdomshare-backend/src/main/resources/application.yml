@@ -1,4 +1,12 @@
 spring:
+  datasource: <4 keys >
+  jpa : <5keys >
+  mail : <5keys >
+  security:
+    aouth2:
+      resourceserver:
+        jwt:
+          issuer-uri:" http://localhost:4200"
   profiles:
     active: dev
   servlet:

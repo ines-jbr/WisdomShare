@@ -17,6 +17,13 @@ import java.time.LocalDateTime;
 @Table(name = "book_transaction_history")
 @EntityListeners(AuditingEntityListener.class)
 public class BookTransactionHistory {
+    @Column(name="")
+    private String userId;
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
+    private boolean returned;
+    private boolean returnApproved;
 
     @Id
     @GeneratedValue

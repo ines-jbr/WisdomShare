@@ -23,22 +23,22 @@ public class BookService {
     private final BookRepository bookRepository;
 
     public Integer save(BookRequest request, Authentication connectedUser) {
-        User user = ((User) connectedUser.getPrincipal());
+        //User user = ((User) connectedUser.getPrincipal());
         Book book = Book.builder()
                 .title(request.title())
                 .authorName(request.authorName())
                 .synopsis(request.synopsis())
                 .shareable(request.shareable())
                 .archived(false)
-                .owner(user)
+                //*//
                 .build();
         return bookRepository.save(book).getId();
     }
 
     public PageResponseBookResponse findAllBooks(int page, int size, Authentication connectedUser) {
-        User user = ((User) connectedUser.getPrincipal());
+        //User user = ((User) connectedUser.getPrincipal());
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<Book> books = bookRepository.findAllDisplayableBooks(pageable, user.getId());
+        Page<Book> books = bookRepository.findAllDisplayableBooks(pageable, Authentication.getName());
         List<BookResponse> bookResponses = books.stream()
                 .map(book -> new BookResponse(
                         book.getId(),
@@ -48,7 +48,7 @@ public class BookService {
                         book.getBookCover(),
                         book.isArchived(),
                         book.isShareable(),
-                        book.getOwner().getFullName(),
+                        book.getCreatedBy().getFullName(),
                         book.getRate(),
                         false, // rated, simplified
                         List.of() // feedbacks, simplified

@@ -14,22 +14,27 @@ import {RouterOutlet} from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  get in() {
+    return this.#in;
+  }
+
+  set in(value) {
+    this.#in = value;
+  }
 
   authRequest: AuthenticationRequest = {email: '', password: ''};
   errorMsg: Array<string> = [];
 
   constructor(
-    private ss: KeycloakService,
-    private router: Router,
-    private tokenService : TokenService
+    private keyclockService : keyclockService
   ) {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.ss.init();
-    await this.ss.login();
+    await this.keyclockService.init();
+    await this.keyclockService.login();
   }
-
+/*
   login() {
     this.errorMsg = [];
     this.authService.authenticate({
@@ -53,4 +58,5 @@ export class LoginComponent implements OnInit {
   register() {
     this.router.navigate(['register']);
   }
-}
+}*/
+//in the video he ignore it //
