@@ -1,7 +1,6 @@
 package com.wisdomshare.service;
 
 import com.wisdomshare.entity.Book;
-import com.wisdomshare.entity.User;
 import com.wisdomshare.model.BookRequest;
 import com.wisdomshare.model.BookResponse;
 import com.wisdomshare.model.PageResponseBookResponse;
@@ -23,22 +22,20 @@ public class BookService {
     private final BookRepository bookRepository;
 
     public Integer save(BookRequest request, Authentication connectedUser) {
-        //User user = ((User) connectedUser.getPrincipal());
         Book book = Book.builder()
                 .title(request.title())
                 .authorName(request.authorName())
                 .synopsis(request.synopsis())
                 .shareable(request.shareable())
                 .archived(false)
-                //*//
                 .build();
         return bookRepository.save(book).getId();
     }
 
     public PageResponseBookResponse findAllBooks(int page, int size, Authentication connectedUser) {
-        //User user = ((User) connectedUser.getPrincipal());
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<Book> books = bookRepository.findAllDisplayableBooks(pageable, Authentication.getName());
+        // Use connectedUser.getName() on the instance, not statically
+        Page<Book> books = bookRepository.findAllDisplayableBooks(pageable, connectedUser.getName());
         List<BookResponse> bookResponses = books.stream()
                 .map(book -> new BookResponse(
                         book.getId(),
@@ -48,10 +45,10 @@ public class BookService {
                         book.getBookCover(),
                         book.isArchived(),
                         book.isShareable(),
-                        book.getCreatedBy().getFullName(),
+                        null, // owner name — no User entity linked directly
                         book.getRate(),
-                        false, // rated, simplified
-                        List.of() // feedbacks, simplified
+                        false,
+                        List.of()
                 ))
                 .toList();
         return new PageResponseBookResponse(

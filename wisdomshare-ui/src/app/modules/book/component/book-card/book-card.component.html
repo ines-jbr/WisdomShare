@@ -4,20 +4,26 @@
     <h5 class="card-title text-truncate">{{book.title}}</h5>
     <p class="card-text text-muted">{{book.authorName}}</p>
     <div class="d-flex gap-2">
-       <app-rating [rating]="book.rate || 0"></app-rating>
-       <span class="fw-bold" *ngIf="book.rate">{{book.rate}}</span>
+      <app-rating [rating]="book.rate || 0"></app-rating>
+      @if (book.rate) {
+        <span class="fw-bold">{{book.rate}}</span>
+      }
     </div>
   </div>
   <div class="card-footer d-flex justify-content-between align-items-center">
-    <div class="d-flex gap-2" *ngIf="!manage">
+    @if (!manage) {
+      <div class="d-flex gap-2">
         <i (click)="onShowDetails()" class="fas fa-circle-info text-primary cursor-pointer"></i>
         <i (click)="onBorrow()" class="fas fa-list-check text-success cursor-pointer"></i>
         <i (click)="onAddToWaitingList()" class="fas fa-heart text-danger cursor-pointer"></i>
-    </div>
-    <div class="d-flex gap-2" *ngIf="manage">
+      </div>
+    }
+    @if (manage) {
+      <div class="d-flex gap-2">
         <i (click)="onEdit()" class="fas fa-edit text-success cursor-pointer"></i>
         <i (click)="onShare()" class="fas fa-share-nodes text-primary cursor-pointer"></i>
         <i (click)="onArchive()" class="fas fa-archive text-danger cursor-pointer"></i>
-    </div>
+      </div>
+    }
   </div>
 </div>

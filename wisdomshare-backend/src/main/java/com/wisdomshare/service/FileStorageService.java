@@ -42,16 +42,19 @@ public class FileStorageService {
         if (!targetFolder.exists()) {
             boolean folderCreated = targetFolder.mkdirs();
             if (!folderCreated) {
-                log.warn("Failed to create the target folder: " + targetFolder);
+                // Use {} placeholders instead of string concatenation
+                log.warn("Failed to create the target folder: {}", targetFolder);
                 return null;
             }
         }
+
         final String fileExtension = getFileExtension(sourceFile.getOriginalFilename());
         String targetFilePath = finalUploadPath + separator + currentTimeMillis() + "." + fileExtension;
         Path targetPath = Paths.get(targetFilePath);
+
         try {
             Files.write(targetPath, sourceFile.getBytes());
-            log.info("File saved to: " + targetFilePath);
+            log.info("File saved to: {}", targetFilePath);
             return targetFilePath;
         } catch (IOException e) {
             log.error("File was not saved", e);

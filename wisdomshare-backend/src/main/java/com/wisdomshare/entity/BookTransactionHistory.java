@@ -17,17 +17,21 @@ import java.time.LocalDateTime;
 @Table(name = "book_transaction_history")
 @EntityListeners(AuditingEntityListener.class)
 public class BookTransactionHistory {
-    @Column(name="")
-    private String userId;
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
-    private boolean returned;
-    private boolean returnApproved;
 
     @Id
     @GeneratedValue
     private Integer id;
+
+    // Keycloak user ID stored as string (no FK — Keycloak users are external)
+    @Column(name = "user_id")
+    private String userId;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
+
+    private boolean returned;
+    private boolean returnApproved;
 
     @Enumerated(EnumType.STRING)
     private BookTransactionType type;
@@ -39,12 +43,4 @@ public class BookTransactionHistory {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
-
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 }

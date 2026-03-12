@@ -2,51 +2,33 @@ package com.wisdomshare.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Principal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Since this app uses Keycloak for authentication, User is NOT a JPA entity.
+ * It is only used as a UserDetails wrapper for Spring Security principal extraction.
+ * JPA table management is handled by Keycloak on its own schema.
+ */
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-//@Entity
-//@Table(name = "_user")
-//@EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails, Principal {
 
-    @Id
-    @GeneratedValue
-    private Integer id;
+    private String id;
     private String firstname;
     private String lastname;
-    private LocalDate dateOfBirth;
-    @Column(unique = true)
     private String email;
     private String password;
     private boolean accountLocked;
     private boolean enabled;
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
-
-    @OneToMany(mappedBy = "owner")
-    private List<Book> books;
 
     @Override
     public String getName() {

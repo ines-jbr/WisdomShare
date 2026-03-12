@@ -2,7 +2,6 @@ package com.wisdomshare.service;
 
 import com.wisdomshare.entity.Book;
 import com.wisdomshare.entity.Feedback;
-import com.wisdomshare.entity.User;
 import com.wisdomshare.model.FeedbackRequest;
 import com.wisdomshare.repository.BookRepository;
 import com.wisdomshare.repository.FeedbackRepository;
@@ -19,14 +18,14 @@ public class FeedbackService {
 
     public Integer save(FeedbackRequest request, Authentication connectedUser) {
         Book book = bookRepository.findById(request.bookId())
-                .orElseThrow(() -> new RuntimeException("Book not found"));
-        User user = ((User) connectedUser.getPrincipal());
+                .orElseThrow(() -> new RuntimeException("Book not found with id: " + request.bookId()));
+
         Feedback feedback = Feedback.builder()
                 .note(request.note())
                 .comment(request.comment())
                 .book(book)
-                .user(user)
                 .build();
+
         return feedbackRepository.save(feedback).getId();
     }
 }

@@ -1,9 +1,13 @@
 <div class="container-fluid card login-container">
   <h3 class="text-center">Create an account</h3>
   <hr>
-  <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
-    <p *ngFor="let msg of errorMsg">{{msg}}</p>
-  </div>
+  @if (errorMsg.length) {
+    <div class="alert alert-danger" role="alert">
+      @for (msg of errorMsg; track $index) {
+        <p>{{msg}}</p>
+      }
+    </div>
+  }
   <div class="mb-3">
     <label for="firstname" class="form-label">Firstname</label>
     <input [(ngModel)]="registerRequest.firstname" type="text" class="form-control" id="firstname" placeholder="Firstname">
@@ -26,9 +30,7 @@
     </button>
     <div>
       Already have an account?&nbsp;
-      <button (click)="login()" type="button" class="btn btn-link">
-        Login
-      </button>
+      <button (click)="login()" type="button" class="btn btn-link">Login</button>
     </div>
   </div>
 </div>

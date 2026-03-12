@@ -1,13 +1,11 @@
-<!-- rating.component.html -->
-
 <div class="rating">
-  <ng-container *ngFor="let _ of [].constructor(fullStars); let i = index">
+  @for (_ of [].constructor(fullStars); track $index) {
     <i class="fas fa-star text-warning"></i>
-  </ng-container>
-  <ng-container *ngIf="hasHalfStar">
+  }
+  @if (hasHalfStar) {
     <i class="fas fa-star-half-alt text-warning"></i>
-  </ng-container>
-  <ng-container *ngFor="let _ of [].constructor(emptyStars); let i = index">
+  }
+  @for (_ of [].constructor(emptyStars); track $index) {
     <i class="far fa-star"></i>
-  </ng-container>
+  }
 </div>

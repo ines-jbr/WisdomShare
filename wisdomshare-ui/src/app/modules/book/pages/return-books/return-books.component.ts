@@ -8,7 +8,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-returned-books',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './returned-books.component.html'
+  templateUrl: './return-books.component.html',
+  styleUrls: ['./return-books.component.scss']
 })
 export class ReturnedBooksComponent implements OnInit {
 
@@ -19,9 +20,7 @@ export class ReturnedBooksComponent implements OnInit {
   message = '';
   level = 'success';
 
-  constructor(
-    private bookService: BookService
-  ) { }
+  constructor(private bookService: BookService) { }
 
   ngOnInit(): void {
     this.findAllReturnedBooks();
@@ -36,16 +35,15 @@ export class ReturnedBooksComponent implements OnInit {
         this.returnedBooks = resp;
         this.pages = Array(this.returnedBooks.totalPages)
           .fill(0)
-          .map((x, i) => i);
+          .map((_, i) => i);
       }
     });
   }
 
-  // Approuver le retour (utilisé par le propriétaire du livre)
   approveBookReturn(book: Borrowedbookresponse) {
     if (!book.returned) {
       this.level = 'error';
-      this.message ='the book is not yet returned';
+      this.message = 'The book is not yet returned';
       return;
     }
     this.bookService.approveReturnBorrowBook({
@@ -59,14 +57,13 @@ export class ReturnedBooksComponent implements OnInit {
     });
   }
 
-  // --- Méthodes de Pagination ---
   goToFirstPage() { this.page = 0; this.findAllReturnedBooks(); }
   goToPreviousPage() { if (this.page > 0) { this.page--; this.findAllReturnedBooks(); } }
   goToPage(pageIndex: number) { this.page = pageIndex; this.findAllReturnedBooks(); }
   goToNextPage() { if (this.page < (this.returnedBooks.totalPages as number) - 1) { this.page++; this.findAllReturnedBooks(); } }
   goToLastPage() { this.page = (this.returnedBooks.totalPages as number) - 1; this.findAllReturnedBooks(); }
 
-  get isLastPage() {
+  get isLastPage(): boolean {
     return this.page === (this.returnedBooks.totalPages as number) - 1;
   }
 }
